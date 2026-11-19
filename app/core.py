@@ -37,3 +37,22 @@ def milestone_3(model, text: str, k: int = 5, prefix: str | None = None, steps: 
     if steps:
         return suggester.complete(text, steps=steps, beam=beam)
     return suggester.suggest(text, k=k, prefix=prefix)
+
+
+def train_full_model(corpus_dir: Path | str = corpus.CORPUS_DIR, order: int = 4, method: str = "kneser-ney",
+                     min_count: int = 2, **params):
+    """Train on the WHOLE corpus (no held-out split) for use in the CLI. Returns (model, corpus stats)."""
+    from app.ngram import NGramCounts
+    from app.smoothing import METHODS
+    docs = corpus.load_documents(corpus_dir)
+    sentences = corpus.sentences_of(docs)
+    vocab = corpus.build_vocab(sentences, min_count)
+    counts = NGramCounts.from_sentences(corpus.apply_vocab(sentences, vocab), order, vocab)
+    return METHODS[method](counts, **params), corpus.corpus_stats(docs)
+
+
+# --- Milestone 4: Create a CLI for users to interact with the suggestion engine.
+def milestone_4(argv: list[str] | None = None) -> None:
+    """The command-line interface lives in app/cli.py (train, suggest, evaluate and the interactive draft REPL)."""
+    from app.cli import main
+    main(argv)

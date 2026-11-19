@@ -122,3 +122,66 @@ def accuracy_grid(counts_by_order: dict, results: dict, sentences, alpha: float 
     acc["stupid-backoff"] = {n: top_k_accuracy(StupidBackoff(c, alpha), sentences, max_positions=max_positions)
                              for n, c in counts_by_order.items()}
     return acc
+
+
+def report(corpus_dir=None, min_count: int = 2, seed: int = 13, accuracy_positions: int = 400) -> str:
+    """Run the whole comparison and return it as Markdown (this is what `cli evaluate` prints)."""
+    from app import corpus
+    kwargs = {"min_count": min_count, "seed": seed}
+    if corpus_dir is not None:
+        kwargs["corpus_dir"] = corpus_dir
+    lines = []
+
+    def stats_line(name, st):
+        return (f"| {name} | {st['documents']} | {st['sentences']} | {st['tokens']} | {st['vocabulary']} | "
+                f"{st['hapax_types']} | {st['singleton_token_share']:.2%} |")
+
+    docs = corpus.load_documents(*( [corpus_dir] if corpus_dir is not None else []))
+    lines += ["### Corpus statistics (whole corpus, before the train/val/test split)", "",
+              "| part | documents | sentences | tokens | vocabulary | types seen once | singleton share of tokens |",
+              "|---|---|---|---|---|---|---|"]
+    for src in ("handwritten", "generated"):
+        part = [d for d in docs if d.source == src]
+        if part:
+            lines.append(stats_line(src, corpus.corpus_stats(part)))
+    lines.append(stats_line("all", corpus.corpus_stats(docs)))
+
+    # A. train on everything, tune on hand-written validation text, report both validation parts
+    a = corpus.prepare(sources=("handwritten", "generated"), **kwargs)
+    hw_val, gen_val = a.val_by_source["handwritten"], a.val_by_source["generated"]
+    counts = build_counts(a.train, a.vocab)
+    sets = {"hw val": hw_val, "gen val": gen_val, "hw test": a.test_by_source["handwritten"]}
+    res_a = tune_grid(counts, hw_val, sets)
+    lines += ["", f"Closed vocabulary: words seen fewer than {min_count} times in TRAINING data become `<unk>`; "
+                  f"vocabulary size = {len(a.vocab)} (incl. `<s>`, `</s>`, `<unk>`). Training sentences: {len(a.train)}. "
+                  f"Validation tokens scored: hand-written {token_count(hw_val)}, generated {token_count(gen_val)} "
+                  f"(`</s>` counted, `<s>` not).", "",
+              "### Perplexity A: trained on all text, scored on HAND-WRITTEN validation sentences (the number that matters)",
+              "", "Parameters in brackets were tuned on this same validation set.", "", format_ppl_table(res_a, "hw val"),
+              "", "### Perplexity B: same models, scored on GENERATED (template) validation sentences",
+              "", "Misleadingly low: the templates are memorised, so do not read this as quality.", "",
+              format_ppl_table(res_a, "gen val")]
+    w, wm, wn = best_cell(res_a, "hw val")
+    t = res_a[wm][wn]
+    lines += ["", f"Winner on hand-written validation: **{wm}, n={wn}**, perplexity {w:.1f}. Held-out TEST perplexity of "
+                  f"that setting (hand-written test sentences, never used for tuning): {t['ppl']['hw test']:.1f}."]
+
+    # C. hand-written text only, so no template text is involved at all
+    c = corpus.prepare(sources=("handwritten",), **kwargs)
+    hw_only_val = c.val_by_source["handwritten"]
+    counts_c = build_counts(c.train, c.vocab)
+    res_c = tune_grid(counts_c, hw_only_val, {"hw val": hw_only_val, "hw test": c.test_by_source["handwritten"]})
+    lines += ["", "### Perplexity C: trained on HAND-WRITTEN text only (no templates anywhere), scored on hand-written validation",
+              "", f"Vocabulary {len(c.vocab)}, training sentences {len(c.train)}, validation tokens {token_count(hw_only_val)}. "
+              "Same validation sentences as A, but a DIFFERENT vocabulary (different words become `<unk>`), so these "
+              "numbers must not be compared with table A; compare methods only within a table.", "",
+              format_ppl_table(res_c, "hw val")]
+    w, wm, wn = best_cell(res_c, "hw val")
+    lines += ["", f"Winner: **{wm}, n={wn}**, perplexity {w:.1f} (test {res_c[wm][wn]['ppl']['hw test']:.1f})."]
+
+    # D. next-word ranking accuracy, which is also valid for Stupid Backoff
+    acc = accuracy_grid(counts, res_a, hw_val, max_positions=accuracy_positions)
+    lines += ["", "### Next-word accuracy A: top-1 / top-3 on hand-written validation (all methods incl. Stupid Backoff, alpha=0.4)",
+              "", f"First {accuracy_positions} evenly spaced positions. Stupid Backoff has no valid perplexity (its scores do not "
+              "sum to 1), so ranking accuracy is the fair way to compare it.", "", format_accuracy_table(acc)]
+    return "\n".join(lines)

@@ -150,3 +150,52 @@ def test_sentence_boundary_resets_context_and_multiword_completion_extends(sugge
     assert 1 <= len(paths) <= 3 and all(1 <= len(p.words) <= 4 for p in paths)
     assert [p.prob for p in paths] == sorted((p.prob for p in paths), reverse=True)
     assert suggester.complete("please book a ", steps=4, beam=3) == paths
+
+
+# Milestone 4: Create a CLI for users to interact with the suggestion engine.
+@pytest.fixture(scope="module")
+def saved_model(tmp_path_factory):
+    from app.cli import main
+    path = tmp_path_factory.mktemp("models") / "m.json"
+    main(["--model", str(path), "train", "--order", "3"])
+    return str(path)
+
+
+def test_milestone_4_cli_suggest_returns_ranked_output(saved_model, capsys):
+    from app.cli import main
+    capsys.readouterr()
+    main(["--model", saved_model, "suggest", "-k", "3", "please", "book", "a", "fol"])
+    lines = capsys.readouterr().out.strip().splitlines()
+    assert 1 <= len(lines) <= 3 and lines[0].startswith("1. follow-up") and "%" in lines[0]
+    main(["--model", saved_model, "suggest", "--steps", "3", "-k", "2", "please book a "])
+    assert len(capsys.readouterr().out.strip().splitlines()) == 2
+
+
+def test_cli_without_a_trained_model_explains_what_to_do(tmp_path):
+    from app.cli import main
+    with pytest.raises(SystemExit) as e:
+        main(["--model", str(tmp_path / "missing.json"), "suggest", "hello"])
+    assert "train" in str(e.value)
+
+
+def test_draft_repl_accepts_by_number_undoes_and_exits_cleanly(saved_model):
+    from app import persist
+    from app.cli import DraftSession, run_draft
+    model = persist.load_model(saved_model)
+    script = iter(["please book a fol", "1", "u", "2", "q"])
+    shown = []
+    final = run_draft(model, input_fn=lambda _prompt: next(script), out=shown.append)
+    text = "\n".join(shown)
+    assert "1. follow-up" in text and "Final draft:" in text
+    assert final.startswith("please book a ") and "follow-up" not in final   # accepted, undone, then option 2 taken
+    # Ctrl-D (EOF) also ends the session without a traceback
+    def eof(_):
+        raise EOFError
+    assert run_draft(model, input_fn=eof, out=lambda *_: None) == ""
+    # state handling without any I/O
+    s = DraftSession(model, out=lambda *_: None)
+    s.show()
+    assert s.handle("book a fol") and s.pending == "fol" and s.words == ["book", "a"]
+    assert s.handle("") and s.words[-1] == "fol"
+    assert s.handle("u") and s.words == ["book", "a"]
+    assert not s.handle("quit")
