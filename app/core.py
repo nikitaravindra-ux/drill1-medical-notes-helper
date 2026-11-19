@@ -16,3 +16,11 @@ def milestone_1(corpus_dir: Path | str = corpus.CORPUS_DIR, min_count: int = 2, 
                 sources: tuple = ("handwritten", "generated")) -> corpus.Prepared:
     """Load the synthetic corpus, clean + tokenize it, split by document and build the closed vocabulary."""
     return corpus.prepare(corpus_dir, min_count=min_count, seed=seed, sources=sources)
+
+
+# --- Milestone 2: Implement the n-gram language model and apply smoothing.
+def milestone_2(prepared: corpus.Prepared, order: int = 4, method: str = "kneser-ney", **params):
+    """Count n-grams on the training split and wrap them in the chosen smoothing method."""
+    from app.ngram import NGramCounts
+    from app.smoothing import METHODS
+    return METHODS[method](NGramCounts.from_sentences(prepared.train, order, prepared.vocab), **params)

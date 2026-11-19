@@ -1,9 +1,13 @@
 """One real test per milestone (plus the smoothing sanity checks). Fast, deterministic, no network."""
 import random
 
+import math
+
 import pytest
 
-from app import corpus
+from app import corpus, evaluate
+from app.ngram import NGramCounts
+from app.smoothing import AddK, JelinekMercer, KneserNey, StupidBackoff
 
 random.seed(0)
 
@@ -33,3 +37,79 @@ def test_milestone_1():
         assert "SYNTHETIC" in path.read_text(encoding="utf-8")[:300]
     # no train/val leakage: splits are by document
     assert prep.train and prep.val and prep.test
+
+
+@pytest.fixture(scope="module")
+def prep():
+    return corpus.prepare()
+
+
+TINY = [s.split() for s in [
+    "please book a follow-up visit", "please book a visit today", "please confirm your visit",
+    "book a visit with the nurse", "the nurse will call you", "please call the clinic",
+]]
+TINY_VOCAB = {t for s in TINY for t in s} | set(corpus.SPECIALS)
+
+
+# Milestone 2: Implement the n-gram language model and apply smoothing.
+@pytest.mark.parametrize("order", [1, 2, 3, 4])
+@pytest.mark.parametrize("cls", [AddK, JelinekMercer, KneserNey])
+def test_each_smoothing_distribution_sums_to_one(cls, order):
+    model = cls(NGramCounts.from_sentences(TINY, order, TINY_VOCAB))
+    for history in ([], ["please"], ["please", "book"], ["a", "visit"], ["the", "zebra"]):   # incl. unseen context
+        total = sum(model.distribution(history).values())
+        assert total == pytest.approx(1.0, abs=1e-9), (cls.name, order, history, total)
+        assert all(p > 0 for p in model.distribution(history).values())
+
+
+def test_stupid_backoff_is_a_score_not_a_distribution():
+    model = StupidBackoff(NGramCounts.from_sentences(TINY, 3, TINY_VOCAB))
+    assert not model.normalised
+    assert abs(sum(model.distribution(["please", "book"]).values()) - 1.0) > 1e-3
+    # a seen trigram uses its own relative frequency, an unseen one backs off with the 0.4 penalty
+    assert model.prob("a", ["please", "book"]) == pytest.approx(1.0)
+    assert 0 < model.prob("nurse", ["please", "book"]) < model.prob("a", ["please", "book"])
+
+
+def test_kneser_ney_uses_continuation_counts_and_keeps_unseen_continuations_possible():
+    sents = [["san", "francisco"]] * 6 + [[w, "glasses"] for w in ("reading", "new", "my", "his")] + [["the", "cat"]]
+    vocab = {t for s in sents for t in s} | set(corpus.SPECIALS)
+    counts = NGramCounts.from_sentences(sents, 2, vocab)
+    kn, jm = KneserNey(counts, discount=0.75), JelinekMercer(counts, lam=0.5)
+    # "francisco" is more frequent (6 v 4) but only ever follows "san"; "glasses" follows four different words.
+    assert counts.count((), "francisco") > counts.count((), "glasses")
+    assert kn.prob("glasses", ["the"]) > kn.prob("francisco", ["the"])      # continuation probability
+    assert jm.prob("francisco", ["the"]) > jm.prob("glasses", ["the"])      # raw frequency says the opposite
+    # unseen-but-plausible: "the visit" never occurs in training, KN still gives it probability mass
+    model = KneserNey(NGramCounts.from_sentences(TINY, 3, TINY_VOCAB))
+    assert model.counts.count(("the", "clinic"), "visit") == 0
+    assert model.prob("visit", ["the", "clinic"]) > 0
+
+
+def test_oov_words_are_mapped_to_unk_and_perplexity_is_finite(prep):
+    vocab = prep.vocab
+    mapped = corpus.apply_vocab([["please", "qwertyuiop", "visit"]], vocab)
+    assert mapped[0][1] == corpus.UNK
+    model = KneserNey(NGramCounts.from_sentences(prep.train, 3, vocab))
+    assert math.isfinite(evaluate.perplexity(model, mapped))
+    with pytest.raises(ValueError):                    # counting raw, unmapped text must be refused
+        NGramCounts.from_sentences([["qwertyuiop"]], 2, vocab)
+
+
+def test_perplexity_comparison_uses_identical_tokens_and_kn_beats_add_k(prep):
+    val = prep.val_by_source["handwritten"]
+    ppl = {}
+    for n in (2, 3):
+        counts = NGramCounts.from_sentences(prep.train, n, prep.vocab)
+        ppl[n] = (evaluate.perplexity(AddK(counts, k=0.1), val), evaluate.perplexity(KneserNey(counts, discount=0.8), val))
+    assert evaluate.token_count(val) == sum(len(s) + 1 for s in val)        # <s> never counted, </s> always
+    assert ppl[3][1] < ppl[3][0] and ppl[2][1] < ppl[2][0]                  # Kneser-Ney beats add-k
+    assert ppl[3][1] < ppl[2][1]                                            # and longer context helps it
+
+
+def test_model_round_trips_through_json(tmp_path, prep):
+    counts = NGramCounts.from_sentences(prep.train[:200], 3, prep.vocab)
+    counts.save(tmp_path / "m.json")
+    again = NGramCounts.load(tmp_path / "m.json")
+    a, b = KneserNey(counts), KneserNey(again)
+    assert a.prob("visit", ["please", "book"]) == pytest.approx(b.prob("visit", ["please", "book"]))
