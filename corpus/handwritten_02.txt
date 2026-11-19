@@ -1,0 +1,100 @@
+# SYNTHETIC TEXT. Every document in this file was invented for this project.
+# It contains no real patient information: all names, clinics, dates and places are fictional,
+# and no real clinical record, public dataset or scraped text was used.
+# Administrative wording only. One line is one document; lines starting with # are ignored.
+
+Thank you for contacting Northfield Health Centre. Your request for an appointment has been received, and one of our receptionists will ring you back before noon tomorrow with a date and time.
+I can offer you a telephone appointment instead of a visit in person. The clinician will call from a withheld number at some point during the session, so please keep your phone nearby and switched on.
+If you would like a video appointment, we will email you a link about fifteen minutes beforehand. You do not need to download anything, but you will need a device with a camera and a quiet room.
+Because of building work, the entrance on Mill Lane is closed until further notice. Please use the main doors on Station Road, where a member of staff will direct you to the waiting area.
+The appointment you asked for is not available online, so I have entered it manually. You should receive an email shortly, and if it has not arrived by the afternoon, please check your junk folder.
+Your booking for next Monday has been moved to the downstairs clinic because the upstairs lift is under repair. We are sorry for any inconvenience, and we will gladly arrange a taxi if the new location is difficult for you.
+Double appointments are available for patients who need extra time or an interpreter. Please ask for one when you ring, and tell us how long you think you will need.
+The clinic runs a drop-in session every Wednesday morning between 8:30 a.m. and 10:30 a.m. No booking is required, but you may have to wait, and the last person is seen at ten fifteen.
+Our online booking service opens at midnight for appointments in the following fortnight. Appointments for later dates can only be made by telephone, so please call if the portal shows nothing available.
+We aim to see everyone within ten minutes of their appointment time. If we are running late, a member of staff will let you know, and you are free to rebook if you cannot wait.
+Please note that the clinic cannot hold a slot for more than one day without a confirmation from you. If we do not hear from you, the time will be released to the waiting list.
+Please let us know at least twenty-four hours in advance if you are unable to attend. You can cancel by telephone, by text message or through the online portal, and you do not need to give a reason.
+Group sessions are held in the community room on the first Tuesday of every month. Places are limited to twelve people, and booking is required at least a week before the date.
+There is a fee of 25 for appointments cancelled with less than a day's notice. Fees are waived in special circumstances, and anyone who wishes to dispute a charge may speak to the practice manager.
+Walk-in visitors are asked to register at the desk, and to wait in the seating area until their name is called. A notice board shows the current waiting time and the room number for each clinician.
+
+Dear Dr. Hargreave, thank you for seeing Mr. Ellsworth last month. I am writing to ask whether a copy of your clinic letter could be sent to this practice, as we have not yet received it. A forwarding address is given below.
+To the radiology department: please book the above patient for the imaging session requested on the attached form. The patient has limited mobility, so please arrange a seat in the waiting area close to the examination room.
+Dear Colleagues, I would be grateful if you could add Ms. Abernathy to your waiting list for the next available clinic. She is happy to be contacted by telephone at short notice and can come in on any weekday.
+I am writing to inform you that Mr. Sandoval has moved to a new address, and his details have been updated on our system. Please use the new address for all future letters, and destroy any earlier correspondence addressed to the old one.
+Please accept this letter as a request to transfer the care of the patient named above to your practice. She has asked us to forward her file, and she has signed the form giving her permission for the transfer.
+Dear Mrs. Quillfeather, your referral has been accepted and an appointment will be sent to you in the post. If you have not received a letter within three weeks, please telephone our booking office on the number shown above.
+We acknowledge receipt of your referral dated the 9th. It has been logged and will be reviewed by the clinic coordinator. We will write to the patient and to you once a date has been agreed.
+Your patient has failed to attend two appointments and has not responded to our letters. We will keep the referral open for a further fourteen days, after which it will be closed unless we hear from you.
+A letter has been sent to the patient asking them to contact the department to book an appointment. A copy is enclosed for your records, and we have noted your telephone number in case of questions.
+I would be most grateful if you could expedite this request, as the patient will be travelling abroad at the end of next month. Please contact me directly if there is any difficulty with the dates.
+Please direct all queries about this referral to the secretary, whose direct line is on the letterhead. If she is not available, leave a message and she will ring back within one working day.
+Yours faithfully, Mr. Penhallow, Clinic Administrator, Westbank Centre.
+Kind regards, and thank you once again for your help. Please do not hesitate to get in touch if you require anything further from this office.
+
+The nurse will see you for a review in two weeks. Please make sure that you bring the diary sheet we have given you, and book at the front desk on your way out so that you have the appointment in your hand.
+We will write to you with the date of your next visit. It may take up to ten days for the letter to arrive, so please do not telephone before then unless you have moved house or changed your number.
+You may be asked to come back for a short appointment to complete the paperwork. This will take about fifteen minutes, and you do not need to see a clinician unless you have questions.
+We would like to see you again in the spring. A reminder letter will be sent in the first week of March, and you can choose a convenient date by phone or through the portal.
+If you have not received a date within the timeframe above, please contact the booking office. It is usually quicker to ring than to write, and our staff can check the status of your request on the spot.
+Please tell us if you will be away on holiday during the next two months so that we can avoid booking you on dates when you cannot attend. We can also arrange a visit for when you return.
+A member of the team will telephone you next week to arrange a time that suits you. They will ask a few short questions about your availability and will confirm your preferred phone number.
+The clinic can arrange transport for your next visit if you are unable to travel. Please speak to the receptionist when booking, and give us at least three working days' notice.
+Your next two appointments have been combined into a single visit to save you a journey. The new date is on the enclosed card, and the old dates have been cancelled in the system.
+Repeat visits are scheduled at the end of each session, and you will be offered a morning or an afternoon time. If neither suits you, let us know and we will look for another day.
+
+Please bring your insurance card to every appointment. The front desk will copy both sides and return the card straight away, and any change to your policy should be reported to the billing office.
+The authorisation number should be quoted in all correspondence with your insurer. We have written it on the top of the form, and a copy has been placed in your file.
+Your insurer needs seven working days to process a pre-authorisation. We therefore ask that all requests are submitted at least two weeks before the appointment, and that every section of the form is completed.
+We have not received a reply from your insurer, so we have sent a reminder. If we do not hear back by Friday, a member of the billing team will telephone their helpline on your behalf.
+We are unable to bill your insurer directly for this appointment. You will be asked to pay at the desk, and we will give you a receipt and an itemised statement that you can send to them yourself.
+The claim form must be signed by the patient and returned to the billing office within thirty days. Incomplete forms will be sent back by post, and this may delay any payment to the clinic.
+Please check that the name on your insurance card matches the name on your appointment letter exactly. Differences in spelling can cause delays, and we are happy to correct our records if you let us know.
+If your policy has a limit on the number of visits each year, the billing team will tell you how many remain. They keep a running record and can give you a written summary on request.
+Your account is now up to date, and no payment is due. A statement is enclosed for your records. If you think there is a mistake, please phone the billing office, quoting the date on the statement.
+We are pleased to confirm that the claim has been approved in full. No further action is required on your part, and a copy of the approval letter has been added to your file.
+
+Please check that the contact details on this form are correct. If anything has changed, cross it out, write the new information beside it, and hand the form back to the receptionist before you sit down.
+Which language would you prefer for letters and phone calls? Tick one box only. If your language is not listed, write it in the space provided, and we will do our best to find a suitable interpreter.
+Do you give permission for a message to be left on your voicemail? Please tell us if there is anyone in your household who should not be told about your appointments.
+Please write the name and telephone number of the person we should contact in an emergency, and tell us how they are related to you. This is optional, but we find it helpful.
+Please confirm the name of your general practitioner and the address of your preferred pharmacy. We will use these details when we need to send letters or arrange deliveries.
+Please keep a note of your appointment dates in a diary or on your phone. We send reminders where we can, but it remains your responsibility to attend or to cancel in good time.
+Parents and guardians should bring the child's red book and a form of identification. Children can be seen without an adult only in special circumstances, which are explained in the leaflet at the front desk.
+We have updated our privacy notice. A copy is available at the front desk and on our website, and it explains how we store your details and who we may share them with.
+If you are a carer for someone who attends this clinic, please tell the receptionist. We can add a note to the file, and we will make sure that you receive letters and reminders where the patient has agreed.
+New patients who live outside our catchment area may be asked to register elsewhere. The practice manager can explain the boundaries, and a map of the area is displayed in the waiting room.
+
+Your transport is booked, and the driver will wait for no more than ten minutes. If you need more time, ask the nurse to phone the transport office, or let the driver know when they arrive at the entrance.
+A relative or friend is welcome to stay with you until the paperwork has been finished. Please let the ward clerk know who will be collecting you, and give us a contact number for the day.
+Please do not leave the ward until the discharge coordinator has spoken to you. They will go through the paperwork, give you the contact numbers for the team, and confirm the date of your clinic visit.
+If you have any problems after you go home, ring the ward on the number printed on your discharge letter. It is staffed at all times, and a nurse will take your call and tell you what to do next.
+The hospital shop and the cafe are open from 8:00 a.m. to 7:00 p.m. every day. The chapel is on the ground floor, and a quiet room is available for families on the second floor of the east wing.
+Please note that the main car park is full by nine in the morning on weekdays. A shuttle bus runs from the overflow car park every ten minutes, and blue badge holders can use the spaces by the front door.
+An accessible taxi can be ordered at the ward desk. The cost is shared between the patient and the hospital, and we will give you a form to claim the rest back from the transport office.
+Your family may ring the ward between 10:00 a.m. and 8:00 p.m. for news. The nurse in charge can only give information to the people whose names you have given us, so please tell us who they are.
+The discharge letter will be sent to your general practitioner within two working days. A second copy has been placed in your bag, and you are welcome to ask for a further copy at any time.
+Please complete the short feedback card before you leave. It takes less than five minutes, and we read every comment. You can hand it to the ward desk or post it in the box near the lift.
+
+I give permission for the clinic to contact me by text message, and I understand that standard network charges may apply. I can withdraw this permission at any time by replying STOP to any message.
+I confirm that I have read the privacy notice and that the details on this form are correct to the best of my knowledge. I understand that the clinic will keep my records for the period set out by law.
+A signed authority is needed before we can discuss your appointments with a relative, a carer or a solicitor. The form is available at the front desk and takes only a couple of minutes to complete.
+Requests for records from solicitors or insurers must be made in writing and include the signed consent of the patient. We will reply within the period set by law, and a handling fee may be charged.
+If you believe that any information in your record is wrong, you may ask for it to be corrected. Write to the practice manager and describe the entry, and we will reply within thirty days.
+Your request to withdraw consent has been noted and the change was made today. Please be aware that we may still need to keep some information for legal reasons, and we will explain this in a letter.
+Please use the secure upload link in your email to send us a copy of your identification. Do not send documents as ordinary attachments, as they are not protected during delivery.
+The records office is open on Tuesdays and Thursdays only. Visitors should bring a form of photo identification, and any person collecting records for someone else must show the signed consent form.
+We will destroy the paper copies of your records once they have been scanned. The scanned copies are stored securely for the period required, and you can ask us to confirm when the process is complete.
+Staff may look at a patient's file only when they need to do so for their work. All access is recorded, and any concerns about misuse should be passed at once to the practice manager.
+
+Thank you for your email of Tuesday. Your message has been passed to the appropriate team, who will reply within three working days. If your matter is urgent, please telephone the clinic instead of writing again.
+We have changed our telephone number. The new number is printed at the top of this letter, and the old number will be disconnected at the end of the month. Please update your address book accordingly.
+This letter is to let you know that Dr. Lindqvist will be leaving the practice at the end of June. Your appointments will be taken over by Dr. Marchetti, and nothing else about your arrangements will change.
+Our practice is introducing a new appointment system from the first of next month. Staff will be available at the front desk to answer questions, and a leaflet explaining the changes is enclosed.
+We are pleased to announce that the Eastgate Surgery will extend its opening hours on Thursday evenings. Appointments between 6:00 p.m. and 8:00 p.m. can be booked from Monday through the usual channels.
+Thank you for completing our survey. Your answers have been recorded, and a summary of the results will be on the noticeboard next month. We will use the feedback to plan improvements to the waiting area and to the phone system.
+Please be advised that our website will be unavailable for maintenance on Sunday between midnight and 6:00 a.m. If you need to make a booking at this time, please telephone the front desk when we reopen.
+Our records show that you have not visited the clinic for some time. If you still wish to remain registered with us, please complete the enclosed form and return it by the end of the month.
+We regret to inform you that the clinic will be closed on the afternoon of the 14th for a staff meeting. Telephone calls will be diverted to the out of hours service, and the clinic reopens at 8:00 a.m. the next day.
+We are updating our records, and would be grateful if you could confirm the details on the enclosed sheet. A prepaid envelope is included, or you can bring the sheet to the front desk on your next visit.
