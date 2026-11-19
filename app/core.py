@@ -24,3 +24,16 @@ def milestone_2(prepared: corpus.Prepared, order: int = 4, method: str = "kneser
     from app.ngram import NGramCounts
     from app.smoothing import METHODS
     return METHODS[method](NGramCounts.from_sentences(prepared.train, order, prepared.vocab), **params)
+
+
+# --- Milestone 3: Develop a text generation feature that suggests words based on input.
+def milestone_3(model, text: str, k: int = 5, prefix: str | None = None, steps: int = 0, beam: int = 3):
+    """Top-k next-word suggestions (with probabilities) for `text`, honouring a typed prefix.
+
+    With steps > 0 returns multi-word completions (deterministic beam search) instead.
+    """
+    from app.suggest import Suggester
+    suggester = Suggester(model)
+    if steps:
+        return suggester.complete(text, steps=steps, beam=beam)
+    return suggester.suggest(text, k=k, prefix=prefix)

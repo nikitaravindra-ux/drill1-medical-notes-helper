@@ -113,3 +113,40 @@ def test_model_round_trips_through_json(tmp_path, prep):
     again = NGramCounts.load(tmp_path / "m.json")
     a, b = KneserNey(counts), KneserNey(again)
     assert a.prob("visit", ["please", "book"]) == pytest.approx(b.prob("visit", ["please", "book"]))
+
+
+# Milestone 3: Develop a text generation feature that suggests words based on input.
+@pytest.fixture(scope="module")
+def suggester(prep):
+    from app.suggest import Suggester
+    return Suggester(KneserNey(NGramCounts.from_sentences(prep.train, 3, prep.vocab), discount=0.8))
+
+
+def test_milestone_3_suggestions_are_ranked_top_k_with_probabilities(suggester):
+    from app.core import milestone_3
+    out = milestone_3(suggester.model, "we will contact you within ", k=5)
+    assert len(out) == 5
+    probs = [s.prob for s in out]
+    assert probs == sorted(probs, reverse=True) and all(0 < p <= 1 for p in probs)
+    assert out == milestone_3(suggester.model, "we will contact you within ", k=5)       # deterministic
+    assert not {"<s>", "</s>", "<unk>"} & {s.word for s in out}
+    assert suggester.suggest("we will contact you within ", k=3) == out[:3]
+
+
+def test_prefix_filter_only_offers_matching_words(suggester):
+    out = suggester.suggest("please book a fol", k=5)
+    assert out and all(s.word.startswith("fol") for s in out)
+    assert out[0].word == "follow-up"
+    assert all(s.word.startswith("th") for s in suggester.suggest("please call the clinic", k=5, prefix="th"))
+    from app.suggest import split_input
+    assert split_input("please book a fol") == (["please", "book", "a"], "fol")
+    assert split_input("please book a ") == (["please", "book", "a"], "")
+
+
+def test_sentence_boundary_resets_context_and_multiword_completion_extends(suggester):
+    after_stop = suggester.suggest("Your visit is booked. ", k=3)
+    assert {s.word for s in after_stop} <= {s.word for s in suggester.suggest("", k=300)}
+    paths = suggester.complete("please book a ", steps=4, beam=3)
+    assert 1 <= len(paths) <= 3 and all(1 <= len(p.words) <= 4 for p in paths)
+    assert [p.prob for p in paths] == sorted((p.prob for p in paths), reverse=True)
+    assert suggester.complete("please book a ", steps=4, beam=3) == paths
